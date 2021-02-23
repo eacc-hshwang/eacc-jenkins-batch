@@ -1,0 +1,65 @@
+# application.yml application.property 보다 먼저 실행됨. 34.80.117.164 35.229.221.36 //  uri: http://host.docker.internal:8888
+
+#--job.name=khCardListItemWriterJob version=64  << arguments에 설정
+#spring.batch.job.names: ${job.name:NONE}
+logging.level.org.springframework.batch: DEBUG
+
+---    
+spring:
+  profiles: dev
+  application:
+     name: configfile-ezacc
+  cloud:
+    config:
+     uri: http://localhost:8888
+---    
+spring:
+  profiles: devkafka
+  application:
+     name: configfile-ezacc
+  cloud:
+    config:
+     uri: http://localhost:8888   
+---    
+spring:
+  profiles: drod
+  application:
+     name: configfile-ezacc
+  cloud:
+    config:
+     uri: http://localhost:8888     
+
+---    
+spring:
+  profiles: erod
+  application:
+     name: configfile-ezacc
+  cloud:
+    config:
+     uri: http://localhost:8888     
+
+---    
+spring:
+  profiles: prod
+  application:
+     name: configfile-ezacc
+  cloud:
+    config:
+     uri: http://host.docker.internal:8888
+---    
+spring:
+  profiles: prodkafka
+  application:
+     name: configfile-ezacc
+  cloud:
+    config:
+     uri: http://host.docker.internal:8888
+
+---    
+spring:
+  profiles: arod
+  application:
+     name: configfile-ezacc
+  cloud:
+    config:
+     uri: http://172.31.7.145:8888     

@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Built-By: user
+Build-Jdk: 15.0.1
+Implementation-Title: eaccBatch
+Implementation-Version: 0.0.0.1
+Implementation-Vendor-Id: com.sb
+Implementation-URL: https://spring.io/projects/spring-boot/eacc-batch
+Created-By: Maven Integration for Eclipse
+

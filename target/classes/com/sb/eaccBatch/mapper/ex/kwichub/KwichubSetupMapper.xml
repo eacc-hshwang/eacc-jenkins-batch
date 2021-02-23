@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- xml이 위치한 곳, 파일명 포함 -->
+<mapper
+	namespace="com.sb.eaccBatch.mapper.ex.kwichub.KwichubSetupMapper">
+
+	<!-- 홈텍스 공인인증서 파일등록 .dev -->
+	<insert id="saveDerFile">
+		INSERT INTO EXPENSE_DATAHUB_CONFIG
+		(
+		COMPANY_CODE,
+		CONFIG_KEY,
+		CONFIG_VALUE
+		) VALUES (
+		#{g_comCd},
+		"HOMETAX_CERTI_FILE_DER",
+		#{saveDerFile}
+		) ON DUPLICATE KEY UPDATE CONFIG_VALUE =
+		VALUES(CONFIG_VALUE)
+		;
+	</insert>
+
+	<!-- 홈텍스 공인인증서 파일등록 .key -->
+	<insert id="saveKeyFile">
+		INSERT INTO EXPENSE_DATAHUB_CONFIG
+		(
+		COMPANY_CODE,
+		CONFIG_KEY,
+		CONFIG_VALUE
+		) VALUES (
+		#{g_comCd},
+		"HOMETAX_CERTI_FILE_KEY",
+		#{saveKeyFile}
+		) ON DUPLICATE KEY UPDATE CONFIG_VALUE =
+		VALUES(CONFIG_VALUE)
+		;
+	</insert>
+
+	<!-- 홈텍스 공인인증서명 등록 -->
+	<insert id="saveDerId">
+		INSERT INTO EXPENSE_DATAHUB_CONFIG
+		(
+		COMPANY_CODE,
+		CONFIG_KEY,
+		CONFIG_VALUE
+		) VALUES (
+		#{g_comCd},
+		"HOMETAX_CERTI_NAME",
+		#{saveDerId}
+		) ON DUPLICATE KEY UPDATE CONFIG_VALUE =
+		VALUES(CONFIG_VALUE)
+		;
+	</insert>
+
+	<!-- 홈텍스 공인인증서 비밀번호 등록 -->
+	<insert id="saveDerPw">
+		INSERT INTO EXPENSE_DATAHUB_CONFIG
+		(
+		COMPANY_CODE,
+		CONFIG_KEY,
+		CONFIG_VALUE
+		) VALUES (
+		#{g_comCd},
+		"HOMETAX_CERTI_PASSWORD",
+		#{saveDerPw}
+		) ON DUPLICATE KEY UPDATE CONFIG_VALUE =
+		VALUES(CONFIG_VALUE)
+		;
+	</insert>
+
+	<!-- 홈텍스 ID, PW 등록 -->
+	<insert id="saveDerPPw">
+		INSERT INTO EXPENSE_DATAHUB_CONFIG
+		(
+		COMPANY_CODE,
+		CONFIG_KEY,
+		CONFIG_VALUE
+		) VALUES (
+		#{g_comCd},
+		"HOMETAX_ID",
+		#{saveDerIId}
+		) ON
+		DUPLICATE KEY UPDATE CONFIG_VALUE =
+		VALUES(CONFIG_VALUE)
+		;
+
+		INSERT INTO
+		EXPENSE_DATAHUB_CONFIG
+		(
+		COMPANY_CODE,
+		CONFIG_KEY,
+		CONFIG_VALUE
+		)
+		VALUES (
+		#{g_comCd},
+		"HOMETAX_PASSWORD",
+		#{saveDerPPw}
+		) ON DUPLICATE KEY UPDATE
+		CONFIG_VALUE =
+		VALUES(CONFIG_VALUE)
+		;
+	</insert>
+
+	<!-- DataHub Token 등록 -->
+	<insert id="saveDerToken">
+		INSERT INTO EXPENSE_DATAHUB_CONFIG
+		(
+		COMPANY_CODE,
+		CONFIG_KEY,
+		CONFIG_VALUE
+		) VALUES (
+		#{g_comCd},
+		"DATAHUB_TOKEN",
+		#{saveDerToken}
+		) ON DUPLICATE KEY UPDATE CONFIG_VALUE =
+		VALUES(CONFIG_VALUE)
+		;
+	</insert>
+
+	<!-- 암복호화 정보 등록 -->
+	<insert id="saveDerIv">
+		INSERT INTO EXPENSE_DATAHUB_CONFIG
+		(
+		COMPANY_CODE,
+		CONFIG_KEY,
+		CONFIG_VALUE
+		) VALUES (
+		#{g_comCd},
+		"DATAHUB_ENCKEY",
+		#{saveDerKey}
+		) ON DUPLICATE KEY UPDATE CONFIG_VALUE =
+		VALUES(CONFIG_VALUE)
+		;
+
+		INSERT INTO EXPENSE_DATAHUB_CONFIG
+		(
+		COMPANY_CODE,
+		CONFIG_KEY,
+		CONFIG_VALUE
+		)
+		VALUES (
+		#{g_comCd},
+		"DATAHUB_ENCIV",
+		#{saveDerIv}
+		) ON DUPLICATE
+		KEY UPDATE CONFIG_VALUE =
+		VALUES(CONFIG_VALUE)
+		;
+	</insert>
+
+	<!-- 법인카드 스크래핑 ID,PW 정보 등록 -->
+	<insert id="saveDerCard">
+		INSERT INTO EXPENSE_DATAHUB_CONFIG
+		(
+		COMPANY_CODE,
+		CONFIG_KEY,
+		CONFIG_VALUE
+		) VALUES (
+		#{g_comCd},
+		"DATAHUB_CARD_SCRAP_ID",
+		#{saveDerCardId}
+		) ON DUPLICATE KEY UPDATE CONFIG_VALUE =
+		VALUES(CONFIG_VALUE)
+		;
+
+		INSERT INTO EXPENSE_DATAHUB_CONFIG
+		(
+		COMPANY_CODE,
+		CONFIG_KEY,
+		CONFIG_VALUE
+		)
+		VALUES (
+		#{g_comCd},
+		"DATAHUB_CARD_SCRAP_PASSWORD",
+		#{saveDerCardPw}
+		) ON DUPLICATE KEY
+		UPDATE CONFIG_VALUE = VALUES(CONFIG_VALUE)
+		;
+	</insert>
+
+	<!-- CERT_ID 등록 -->
+	<insert id="saveCertId">
+		INSERT INTO EXPENSE_DATAHUB_CONFIG
+		(
+		COMPANY_CODE,
+		CONFIG_KEY,
+		CONFIG_VALUE
+		) VALUES (
+		#{g_comCd},
+		"HOMETAX_CERTI_ID",
+		#{saveCertId}
+		) ON DUPLICATE KEY UPDATE CONFIG_VALUE =
+		VALUES(CONFIG_VALUE)
+		;
+	</insert>
+
+	<!-- EncIv 가져오기 -->
+	<select id="selectEncIv" resultType="HashMap">
+		SELECT IFNULL(MAX(CONFIG_VALUE), '')AS CONFIG_VALUE FROM
+		EXPENSE_DATAHUB_CONFIG WHERE
+		CONFIG_KEY = "DATAHUB_ENCIV" AND
+		COMPANY_CODE = #{g_comCd};
+	</select>
+
+	<!-- EncKey 가져오기 -->
+	<select id="selectEncKey" resultType="HashMap">
+		SELECT IFNULL(MAX(CONFIG_VALUE), '')AS CONFIG_VALUE FROM
+		EXPENSE_DATAHUB_CONFIG WHERE
+		CONFIG_KEY = "DATAHUB_ENCKEY" AND
+		COMPANY_CODE = #{g_comCd};
+	</select>
+
+	<!-- 스크래핑 ID 가져오기 -->
+	<select id="selectScrapId" resultType="HashMap">
+		SELECT IFNULL(MAX(CONFIG_VALUE), '')AS CONFIG_VALUE FROM
+		EXPENSE_DATAHUB_CONFIG WHERE
+		CONFIG_KEY = "DATAHUB_CARD_SCRAP_ID" AND
+		COMPANY_CODE = #{g_comCd};
+	</select>
+
+	<!-- 스크래핑 PW 가져오기 -->
+	<select id="selectScrapPw" resultType="HashMap">
+		SELECT IFNULL(MAX(CONFIG_VALUE), '')AS CONFIG_VALUE FROM
+		EXPENSE_DATAHUB_CONFIG WHERE
+		CONFIG_KEY = "DATAHUB_CARD_SCRAP_PASSWORD"
+		AND
+		COMPANY_CODE = #{g_comCd};
+	</select>
+
+	<!-- 인증서명 가져오기 -->
+	<select id="selectCertName" resultType="HashMap">
+		SELECT IFNULL(MAX(CONFIG_VALUE), '')AS CONFIG_VALUE FROM
+		EXPENSE_DATAHUB_CONFIG WHERE
+		CONFIG_KEY = "HOMETAX_CERTI_NAME"
+		AND
+		COMPANY_CODE = #{g_comCd};
+	</select>
+
+	<!-- 인증서 PW 가져오기 -->
+	<select id="selectCertPw" resultType="HashMap">
+		SELECT IFNULL(MAX(CONFIG_VALUE), '')AS CONFIG_VALUE FROM
+		EXPENSE_DATAHUB_CONFIG WHERE
+		CONFIG_KEY = "HOMETAX_CERTI_PASSWORD"
+		AND
+		COMPANY_CODE = #{g_comCd};
+	</select>
+
+	<!-- Der정보 가져오기 -->
+	<select id="selectCertDer" resultType="HashMap">
+		SELECT IFNULL(MAX(CONFIG_VALUE), '')AS CONFIG_VALUE FROM
+		EXPENSE_DATAHUB_CONFIG WHERE
+		CONFIG_KEY = "HOMETAX_CERTI_FILE_DER"
+		AND
+		COMPANY_CODE = #{g_comCd};
+	</select>
+
+	<!-- Key정보 가져오기 -->
+	<select id="selectCertKey" resultType="HashMap">
+		SELECT IFNULL(MAX(CONFIG_VALUE), '')AS CONFIG_VALUE FROM
+		EXPENSE_DATAHUB_CONFIG WHERE
+		CONFIG_KEY = "HOMETAX_CERTI_FILE_KEY"
+		AND
+		COMPANY_CODE = #{g_comCd};
+	</select>
+	
+	<!-- TOKEN 가져오기 -->
+	<select id="selectDerToken" resultType="HashMap">
+		SELECT IFNULL(MAX(CONFIG_VALUE), '')AS CONFIG_VALUE FROM
+		EXPENSE_DATAHUB_CONFIG WHERE
+		CONFIG_KEY = "DATAHUB_TOKEN" AND
+		COMPANY_CODE = #{g_comCd};
+	</select>
+
+	<!-- 홈택스ID 가져오기 -->
+	<select id="selectHTId" resultType="HashMap">
+		SELECT IFNULL(MAX(CONFIG_VALUE), '')AS CONFIG_VALUE FROM
+		EXPENSE_DATAHUB_CONFIG WHERE
+		CONFIG_KEY = "HOMETAX_ID"
+		AND
+		COMPANY_CODE =
+		#{g_comCd};
+	</select>
+
+	<!-- 홈택스 PW 가져오기 -->
+	<select id="selectHTPw" resultType="HashMap">
+		SELECT IFNULL(MAX(CONFIG_VALUE), '')AS CONFIG_VALUE FROM
+		EXPENSE_DATAHUB_CONFIG WHERE
+		CONFIG_KEY = "HOMETAX_PASSWORD"
+		AND
+		COMPANY_CODE = #{g_comCd};
+	</select>
+</mapper>
